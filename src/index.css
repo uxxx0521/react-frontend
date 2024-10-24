@@ -1,0 +1,156 @@
+body {
+  color: white;
+}
+.Expense_tracker-page {
+  color: black;
+}
+.Express-tracker-dashboard {
+  width: 650px;
+}
+.Express-tracker-dashboard-title {
+  display: inline-block;
+}
+.Sign-in-button {
+  float: right;
+  margin-right: 10px;
+  margin-top: 30px;
+}
+.Sign-up-button {
+  float: right;
+  margin-right: 10px;
+  margin-top: 30px;
+}
+.sign-in-page {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-70px);
+}
+.sign-in-page h1 {
+  margin-left: 70px;
+  margin-bottom: 50px;
+}
+.id-input-group,
+.password-input-group {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sign-up-page {
+  color: black;
+}
+.email-input-group {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.blog-page {
+  color: black;
+}
+.Background {
+  background-image: url("./assets/background.jpg");
+  height: 900px;
+  background-size: cover;
+  background-position: center;
+}
+.Card-div {
+  display: flex;
+  justify-content: center;
+}
+.card {
+  border: 1px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 5px;
+  margin: 20px;
+  text-align: center;
+  width: 360px;
+  height: 320px;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
+}
+
+.card-img {
+  max-height: 200px;
+  border-radius: 10px;
+}
+
+.card-title {
+  margin: 10px;
+  color: black;
+}
+
+.card-text {
+  margin: 10px;
+  color: black;
+}
+
+/*Header.css*/
+.header-title {
+  color: white;
+}
+
+/*button*/
+.button-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+}
+
+.button-header {
+  margin-right: 20px;
+  margin-left: 20px;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+  font-size: 20px;
+  width: 130px;
+  border-radius: 30px;
+  border-width: 1px;
+}
+
+.button-header:hover {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
+  transform: translateY(1px);
+}
+
+/*EXPENSE-TRACKER*/
+.App-expense-tracker {
+  display: grid;
+  grid-template-columns: 300px 300px;
+  display: center;
+  grid-gap: 50px;
+}
+
+.App-balance-summary-section {
+  height: 350px;
+  min-width: 300px;
+}
+
+.App-add-new-transaction-section {
+  height: 350px;
+  min-width: 300px;
+}
+.App-trasaction-history {
+  height: 350px;
+  width: 300px;
+}
+.App-expense-tracker-page {
+  color: black;
+}
+
+.App-balance-summary-display-section {
+  display: grid;
+  grid-template-rows: 100px 100px 100px;
+}
