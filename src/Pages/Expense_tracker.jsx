@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios'
 import Button_Expense_Tracker from "../Button/Button_Expense_tracker";
 
 function Expense_tracker() {
@@ -7,6 +8,7 @@ function Expense_tracker() {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [incomeInputValue, setIncomeInputValue] = useState();
   const [expenseInputValue, setExpenseInputValue] = useState();
+  const [nickName, setNickname] = useState("");
 
   const [dateInputValue, setDateInput] = useState();
   const [filteredEntries, setFilteredEntries] = useState([]);
@@ -101,6 +103,31 @@ function Expense_tracker() {
       );
     }
   }
+
+  /*// Fetch user data when mount.
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await fetch("URL")
+        if (!response.ok) {
+          throw new Error("Failed to fetch data")
+        }
+        const data = await response.json();
+        // Destructure the user and history from the response
+        const { user: generalData, history } = data;
+
+        setCurrentBalance(generalData.currentBalance)
+        setTotalExpenses(generalData.totalExpenses)
+        setTotalIncome(generalData.totalIncome)
+        setNickname(generalData.nickname)
+        setEntries(history);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchdata();
+  }, []);
+*/
 
   return (
     <>

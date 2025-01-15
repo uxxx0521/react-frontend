@@ -35,7 +35,9 @@ body {
   margin-bottom: 50px;
 }
 .id-input-group,
-.password-input-group {
+.password-input-group,
+.nickname-input-group,
+.email-input-group {
   display: grid;
   grid-template-columns: 80px 1fr;
   align-items: center;
@@ -45,12 +47,7 @@ body {
 .sign-up-page {
   color: black;
 }
-.email-input-group {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  align-items: center;
-  margin-bottom: 10px;
-}
+
 
 .blog-page {
   color: black;

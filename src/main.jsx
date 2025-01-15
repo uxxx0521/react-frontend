@@ -10,6 +10,8 @@ import Resume from "./Pages/Resume.jsx";
 import Expense_tracker from "./Pages/Expense_tracker.jsx";
 import Sign_in from "./Pages/SignIn.jsx";
 import Sign_up from "./Pages/SignUp.jsx";
+import ProtectedRoute from "./ProtectedRoutes/ProtectedRoute.jsx";
+import Me from "./ProtectedRoutes/Me.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -44,6 +46,15 @@ const router = createBrowserRouter([
     path: "/portfolio/expense_tracker/sign_up",
     element: <Sign_up />,
   },
+  {
+    path: "/portfolio/expense_tracker/me",
+    element: (
+      <ProtectedRoute>
+        <Me />
+      </ProtectedRoute>
+    ),
+  },
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
