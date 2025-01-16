@@ -20,6 +20,11 @@ body {
   margin-right: 10px;
   margin-top: 30px;
 }
+.Log-out-button{
+  float: right;
+  margin-right: 10px;
+  margin-top: 30px;
+}
 .sign-in-page {
   color: black;
   display: flex;
