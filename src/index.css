@@ -1,30 +1,22 @@
 body {
   color: white;
 }
-.Expense_tracker-page {
-  color: black;
+.header-line{
+
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, grey, white);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-.Express-tracker-dashboard {
-  width: 650px;
+.Content-div{ 
+  margin-top: 10px;
+  color:black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.Express-tracker-dashboard-title {
-  display: inline-block;
-}
-.Sign-in-button {
-  float: right;
-  margin-right: 10px;
-  margin-top: 30px;
-}
-.Sign-up-button {
-  float: right;
-  margin-right: 10px;
-  margin-top: 30px;
-}
-.Log-out-button{
-  float: right;
-  margin-right: 10px;
-  margin-top: 30px;
-}
+
+
 .sign-in-page {
   color: black;
   display: flex;
@@ -63,6 +55,34 @@ body {
   background-size: cover;
   background-position: center;
 }
+.about-me-card{
+  border: 1px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 5px;
+  margin: 20px;
+  text-align: center;
+  width: 800px;
+  height: 320px;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
+
+}
+.about-me-text{
+  width: 700px; /* Set a fixed width */
+  margin: 0 auto; /* Center the paragraph */
+  text-align: justify;
+  padding-top: 23px;
+
+  font-family: "Raleway", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
 .Card-div {
   display: flex;
   justify-content: center;
@@ -98,7 +118,16 @@ body {
 
 /*Header.css*/
 .header-title {
-  color: white;
+  font-family: "Raleway", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+
+  font-size: 38px;
+  padding-top: 25px;
+  padding-left: 17px;
+  color: rgb(239, 239, 239);
+  
 }
 
 /*button*/
@@ -107,6 +136,7 @@ body {
   flex-direction: row;
   justify-content: center;
   padding: 10px;
+  margin-bottom: 50px;
 }
 
 .button-header {
@@ -126,33 +156,404 @@ body {
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
   transform: translateY(1px);
 }
+.Log-out-button{
+  float: right;
+  margin-right: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+.Sign-in-button {
+  
+ 
+  margin-top: 30px;
+  cursor: pointer; 
+}
+.Sign-up-button {
+
+  margin-right: 10px;
+  margin-top: 30px;
+  cursor: pointer; 
+}
+.right-button-container{
+  display: flex; /* Makes the buttons inline and allows alignment */
+  justify-content: flex-end; /* Aligns buttons to the right */
+  gap: 10px; /* Adds spacing between the buttons */
+  margin-bottom: 20px;
+
+}
+.home-button{
+  width: 50px; /* Set the width */
+  height: 50px; /* Make the height equal to the width */
+  display: inline-flex; /* Ensures proper alignment of content inside */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  text-align: center; /* Aligns text inside */
+  border: 1px solid #000; /* Optional: Add a border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  background-color: #a5a4ea; /* Optional: Set a background color */
+  color: rgb(0, 0, 0); /* Optional: Set text color */
+  font-size: 16px; /* Optional: Adjust text size */
+  cursor: pointer; /* Adds a pointer cursor for better UX */
+}
+
+.delete-button{
+  width: 20px; /* Set the width */
+  height: 20px; /* Make the height equal to the width */
+  display: inline-flex; /* Ensures proper alignment of content inside */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  text-align: center; /* Aligns text inside */
+  border: 1px solid #000; /* Optional: Add a border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  background-color: rgb(230, 90, 90); /* Optional: Set a background color */
+  color: rgb(0, 0, 0); /* Optional: Set text color */
+  font-size: 16px; /* Optional: Adjust text size */
+  cursor: pointer; /* Adds a pointer cursor for better UX */
+
+}
 
 /*EXPENSE-TRACKER*/
+.App-expense-tracker-page{
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically within the parent */
+  align-items: center; /* Center children horizontally */
+  height: 100vh; /* Full viewport height */
+  background-color: #f4f4f4;
+  margin-top: -35px;
+  color: black;
+}
+.Express-tracker-dashboard {
+  width: 710px;
+  display: flex;
+  justify-content: space-between; /* Distributes space between items */
+  align-items: center; /* Vertically aligns items */
+  gap: 10px; 
+  position: relative;
+}
+.Express-tracker-dashboard-title {
+  display: inline-block;
+  font-size: 28px;
+}
 .App-expense-tracker {
   display: grid;
   grid-template-columns: 300px 300px;
   display: center;
   grid-gap: 50px;
+  padding-right: 40px;
+  padding-left:10px;
+  padding-top: 10px;
+  min-width: 662px;
+  min-height: 815px;
+
+  border: 3px solid rgb(160, 159, 159);
+  border-radius: 10px;
+
+  
 }
 
 .App-balance-summary-section {
-  height: 350px;
+  height: 310px;
   min-width: 300px;
+
+  border: 0.5px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 20px;
 }
 
 .App-add-new-transaction-section {
-  height: 350px;
+  height: 200px;
   min-width: 300px;
-}
-.App-trasaction-history {
-  height: 350px;
-  width: 300px;
-}
-.App-expense-tracker-page {
-  color: black;
-}
+  
 
+
+  border: 0.5px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 20px;
+}
 .App-balance-summary-display-section {
   display: grid;
   grid-template-rows: 100px 100px 100px;
+
+  
+}
+
+.App-trasaction-history {
+  height: 400px;
+  width: 300px;
+  margin-top: -50px;
+  
+
+  border: 0.5px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 20px;
+}
+.app-stock-section{
+  
+  height: 510px;
+  width: 300px;
+  margin-top: -160px;
+  border: 0.5px solid rgb(160, 159, 159);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
+  padding: 20px;
+
+}
+.stock-search-section{
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.table-container {
+  height: 330px; /* Set a fixed height for the container */
+  width: 338px;
+  margin-left: -20px;
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  border: 1px solid #ccc; /* Optional: Add a border around the box */
+  background-color: #f9f9f9; /* Optional: Set a background color */
+}
+
+table {
+  width: 100%; /* Make the table take up the full width of the container */
+  border-collapse: collapse; /* Optional: Remove gaps between table cells */
+}
+
+th, td {
+  padding: 4px; /* Add padding to table cells */
+  text-align: center; /* Horizontally center the text */
+  border-bottom: 1px solid #ddd; /* Add a bottom border to rows */
+}
+
+th {
+  background-color: #f4f4f4; /* Optional: Set a background for table headers */
+  position: sticky; /* Make headers stick to the top while scrolling */
+  top: 0; /* Ensure headers stay at the top */
+}
+.app-section-title{
+  margin-top: -8px;
+  margin-bottom: 10px; 
+}
+.history-search-bar{
+margin-bottom: 10px;
+display: flex;
+gap: 3px;
+
+}
+.search-results-dropdown{
+
+  position: absolute; /* Position absolute to place it below the input */
+  top: 100%; /* Position it right below the input box */
+  left: 0; /* Align with the left of the input box */
+  width: 70%; /* Match the width of the input box */
+  background-color: #fff; /* Background color for dropdown */
+  border: 1px solid #ccc; /* Border to define the dropdown */
+  border-radius: 4px; /* Optional: Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+  max-height: 200px; /* Optional: Limit the dropdown height */
+  overflow-y: auto; /* Add scroll if the content exceeds max-height */
+  z-index: 10; /* Ensure the dropdown appears above other elements */
+  padding: 0; /* Reset padding */
+  list-style-type: none; /* Remove bullets if using a list */
+
+}
+.search-results-dropdown ul {
+  list-style-type: none; /* Removes bullets */
+  padding: 5px; /* Removes default padding */
+  margin: 0; /* Removes default margin */
+
+}
+.search-results-dropdown li {
+  padding: 8px 12px; /* Add some padding for better spacing */
+  cursor: pointer; /* Change cursor to pointer to indicate interactivity */
+  transition: background-color 0.1s ease; /* Smooth transition for hover effect */
+}
+.search-results-dropdown li:hover {
+  background-color: #a5a4ea; /* Light gray background on hover */
+}
+.search-container{
+  position: relative; 
+
+}
+.stock-title{
+font-size: 33px;
+margin: 0;
+margin-top: -8px;
+margin-bottom: -10px;
+display: inline-block;
+
+}
+.stock-company-name{
+  font-size: 20px;
+  display: inline-block;
+}
+.stock-symbol{
+  display: inline-block; /* Keep symbol inline */
+  width: 90px; /* Fixed width for consistent alignment */
+  font-size: 15px;
+}
+
+
+.details-list {
+  list-style-type: none; /* Removes the bullet points */
+  padding: 0; /* Removes default padding */
+  margin: 0; /* Removes default margin */
+  font-size: 13px;
+}
+
+/* Style each list item */
+.details-item {
+  display: flex; /* Enable Flexbox for horizontal alignment */
+  justify-content: space-between; /* Spread content to edges */
+  align-items: center; /* Center-align items vertically */
+  padding: 5px 12px; /* Add padding for better spacing */
+  border-bottom: 1px solid #ccc; /* Optional: Add a border for separation */
+}
+
+
+.details-right {
+  text-align: right; /* Align the text to the right */
+  color: #555; /* Optional: Change the text color */
+}
+
+.stock-title-section{
+  display: flex;
+  flex-direction: column;
+  max-width: 150px;
+  min-width:100px;
+  width: 150px;
+  height: 90px;
+}
+.stock-top-section{
+display: flex;
+
+}
+.button-active{
+  background-color: #a5a4ea;
+  border-radius: 8px; 
+  border-width: 0.5px;
+}
+.button-inactive{
+  background-color: white;
+  border-radius: 8px; 
+  border-width: 0.5px;
+}
+.button-inactive:hover {
+  background-color: rgb(232, 231, 231);
+  cursor: pointer;
+}
+.stock-filter-button-list {
+  display: flex; /* Enables Flexbox layout */
+  gap: 5px; /* Adds spacing between buttons */
+  padding: 0; /* Remove default padding from <ul> */
+  margin: 0; /* Remove default margin */
+  list-style-type: none; /* Remove bullet points */
+  justify-content:flex-end;
+  margin-top: 15px;
+  margin-bottom: 3px;;
+}
+/* Stock Quote Container */
+.stock-overview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+  width: 300px;
+  background: #f4f4f4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  color: #333333;
+  margin: 10px; /* Center the component on the page */
+  margin-top: -10px;
+  margin-left: 20px;
+  margin-right: -10px;
+}
+.stock-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+.stock-symbol {
+  font-weight: bold;
+  color: #4a47e1;
+  font-size: 20px;
+  margin-left:-11px;
+}
+
+.stock-price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #212121;
+}
+
+.stock-currency {
+  font-size: 0.9rem;
+  color: #757575;
+  margin-left: 5px;
+  font-weight: 100;
+}
+
+/* Change and Change Percent */
+.stock-change {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.positive {
+  color: #4caf50; /* Green for positive change */
+}
+
+.negative {
+  color: #f44336; /* Red for negative change */
+}
+
+.stock-change-percent {
+  font-size: 0.9rem;
+  color: #555555;
+  margin-left: 5px;
+}
+
+/*Search result list*/
+.search-results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px; /* Optional: limit height with scroll */
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.search-results-item {
+  display: flex;
+  justify-content: space-between; /* Align symbol left and description right */
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+/* Stock Symbol */
+.search-results-symbol {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333333;
+}
+
+/* Stock Description */
+.search-results-description {
+  font-size: 0.9rem;
+  color: #757575;
+  text-align: right;
 }

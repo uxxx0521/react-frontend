@@ -11,7 +11,7 @@ function Sign_up() {
   // Handle sign up.
   const signup = async (e) => {
     try {
-      const response = await axios.post("http://localhost:3000/register", {
+      const response = await axios.post("/api/register", {
         nickname,
         email,
         username,

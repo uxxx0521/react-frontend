@@ -15,7 +15,7 @@ function Sign_in() {
   const login = async (e) => {
 
     try {
-      const response = await axios.post("http://localhost:3000/auth", {
+      const response = await axios.post("/api/auth", {
         username,
         password,
       });
@@ -54,7 +54,7 @@ function Sign_in() {
       console.log("accesToken is expired or not exist.");
 
       // If access token is expired, try to use refresh token
-      const response = await axios.post("http://localhost:3000/refresh", {}, { withCredentials: true });
+      const response = await axios.post("/api/refresh", {}, { withCredentials: true });
 
       if (response.status === 200) {
         const newAccessToken = response.data.accessToken;

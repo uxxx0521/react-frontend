@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import Button_Expense_Tracker from "../Button/Button_Expense_tracker";
+import Stock from "../components/Stock";
+
 
 function Expense_tracker() {
   const [currentBalance, setCurrentBalance] = useState(0);
@@ -9,14 +11,14 @@ function Expense_tracker() {
   const [incomeInputValue, setIncomeInputValue] = useState();
   const [expenseInputValue, setExpenseInputValue] = useState();
   const [nickName, setNickname] = useState("");
+  const [isSearchActive, setIsSearchActive] = useState(false); // State to track if search is active
 
   const [dateInputValue, setDateInput] = useState();
   const [filteredEntries, setFilteredEntries] = useState([]);
 
   const [entries, setEntries] = useState([]);
   const [incomeCategorySelect, setIncomeCategorySelect] = useState("Salary");
-  const [expenseCategorySelect, setExpenseCategorySelect] =
-    useState("Mortgage");
+  const [expenseCategorySelect, setExpenseCategorySelect] = useState("Mortgage");
 
   function handleDateInputChange(event) {
     const selectedDate = event.target.value;
@@ -28,10 +30,17 @@ function Expense_tracker() {
       (entries) => entries.date === dateInputValue
     );
     setFilteredEntries(filtered);
+    setIsSearchActive(true); // Mark search as active
     if (filtered.length === 0) {
       alert("No result found for the selected date");
     }
   }
+
+  const handleClearSearch = () => {
+    setFilteredEntries([]);
+    setDateInput("");
+    setIsSearchActive(false); // Reset search state
+  };
 
   function handleIncomeInputChange(event) {
     setIncomeInputValue(event.target.value);
@@ -59,7 +68,7 @@ function Expense_tracker() {
         type: "Income",
         number: Number(incomeInputValue),
         category: incomeCategorySelect,
-        date: new Date().toISOString().slice(0, 10),
+        date: new Date().toLocaleDateString("en-CA"),
       };
       setEntries([...entries, newEntry]);
       setIncomeInputValue("");
@@ -77,7 +86,7 @@ function Expense_tracker() {
         type: "Expense",
         number: Number(expenseInputValue),
         category: expenseCategorySelect,
-        date: new Date().toISOString().slice(0, 10),
+        date: new Date().toLocaleDateString("en-CA"),
       };
       setEntries([...entries, newEntry]);
       setExpenseInputValue("");
@@ -133,24 +142,33 @@ function Expense_tracker() {
     <>
       <div className="App-expense-tracker-page">
         <div className="Express-tracker-dashboard">
-          <h1 className="Express-tracker-dashboard-title">Dashboard</h1>
           <Button_Expense_Tracker
-            text="Sign up"
-            link="/portfolio/expense_tracker/sign_up"
-            className="Sign-up-button"
+            text="Home"
+            link="/portfolio"
+            className="home-button"
           />
-          <Button_Expense_Tracker
-            text="Sign in"
-            link="/portfolio/expense_tracker/sign_in"
-            className="Sign-in-button"
-          />
+          <h1 className="Express-tracker-dashboard-title">Hi, guest :) Log in to retrieve your data.</h1>
+          <div className="right-button-container">
+
+            <Button_Expense_Tracker
+              text="Sign in"
+              link="/portfolio/expense_tracker/sign_in"
+              className="Sign-in-button"
+            />
+            <Button_Expense_Tracker
+              text="Sign up"
+              link="/portfolio/expense_tracker/sign_up"
+              className="Sign-up-button"
+            />
+          </div>
         </div>
 
         <div className="App-expense-tracker">
           {/*BALANCE SUMMARY*/}
+
           <div className="App-balance-summary-section">
-            <h1>Balance Summary</h1>
-            <div class="App-balance-summary-display-section">
+            <h1 className="app-section-title">Balance Summary</h1>
+            <div className="App-balance-summary-display-section">
               <div className="Current-balance-display-box">
                 <p>Current Balance</p>
                 <p>${currentBalance}</p>
@@ -165,9 +183,10 @@ function Expense_tracker() {
               </div>
             </div>
           </div>
+
           {/*NEW Transaction*/}
           <div className="App-add-new-transaction-section">
-            <h1>Add New Transaction</h1>
+            <h1 className="app-section-title">Add New Transaction</h1>
             <p>Add income</p>
             <input
               placeholder="Income amount"
@@ -199,42 +218,52 @@ function Expense_tracker() {
             </select>
             <button onClick={handleExpenseAddClick}>Add</button>
           </div>
+
+
+
           {/*Transaction History*/}
           <div className="App-trasaction-history">
-            <h1>Transaction History</h1>
-            <input type="date" onChange={handleDateInputChange}></input>
-            <button onClick={handleSearchButtonClick}>Search</button>
-            <button>Filter</button>
-            <button>Sort</button>
-            <p>History</p>
-            <table>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Balance</th>
-                  <th>Category</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(dateInputValue && filteredEntries.length > 0
-                  ? filteredEntries
-                  : entries
-                ).map((entries, index) => (
-                  <tr key={index}>
-                    <td>{entries.type}</td>
-                    <td>{entries.number}</td>
-                    <td>{entries.category}</td>
-                    <td>{entries.date}</td>
-                    <td>
-                      <button onClick={() => deleteEntry(index)}>Delete</button>
-                    </td>
+            <h1 className="app-section-title">{isSearchActive ? "Searched Result" : "Transaction History"}</h1>
+            <div className="history-search-bar">
+              <input
+                type="date"
+                onChange={handleDateInputChange}
+                value={dateInputValue}
+              />
+              <button onClick={handleSearchButtonClick}>Search</button>
+              <button>Filter</button>
+              <button onClick={handleClearSearch}>Clear</button>
+            </div>
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Balance</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {/*HISTORY LIST TEST*/}
+                </thead>
+                <tbody>
+                  {(dateInputValue && filteredEntries.length > 0
+                    ? filteredEntries
+                    : entries
+                  ).map((entries, index) => (
+                    <tr key={index}>
+                      <td>{entries.type}</td>
+                      <td>{entries.number}</td>
+                      <td>{entries.category}</td>
+                      <td>{entries.date}</td>
+                      <td>
+                        <button className="delete-button" onClick={() => deleteEntry(index)}>X</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/*HISTORY LIST TEST
             <h2>Searched Result</h2>
             <table>
               <thead>
@@ -256,11 +285,19 @@ function Expense_tracker() {
                 ))}
               </tbody>
             </table>
+            */}
 
-            <p>{dateInputValue}</p>
           </div>
+
+          <Stock />
+
+
+
+
+
         </div>
-      </div>
+      </div >
+
     </>
   );
 }
