@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Montserrat:wght@300;400&display=swap');
+
 body {
   color: white;
 }
@@ -49,72 +51,83 @@ body {
 .blog-page {
   color: black;
 }
-.Background {
-  background-image: url("./assets/background.jpg");
-  height: 900px;
-  background-size: cover;
-  background-position: center;
-}
-.about-me-card{
-  border: 1px solid rgb(160, 159, 159);
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
-  padding: 5px;
-  margin: 20px;
-  text-align: center;
-  width: 800px;
-  height: 320px;
-  display: inline-block;
-  background-color: white;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
 
-}
-.about-me-text{
-  width: 700px; /* Set a fixed width */
-  margin: 0 auto; /* Center the paragraph */
-  text-align: justify;
-  padding-top: 23px;
 
-  font-family: "Raleway", serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 18px;
-  line-height: 1.6;
-}
 
 .Card-div {
   display: flex;
   justify-content: center;
+  margin-top: 50px;
+  gap: 20px;  /* Space between cards */
 }
+
 .card {
-  border: 1px solid rgb(160, 159, 159);
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
-  padding: 5px;
-  margin: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  margin: 0px;
   text-align: center;
   width: 360px;
   height: 320px;
   display: inline-block;
-  background-color: white;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
+  background: rgba(255, 255, 255, 0.1); /* Transparent */
+  backdrop-filter: blur(12px); /* Frosted Glass Effect */
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+
+
+  /* Animation */
+  opacity: 0; /* Start invisible */
+  transform: translateY(20px); /* Start slightly below */
+  animation: fadeInUp 0.6s ease-in-out forwards;
 }
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Subtle Hover Effect */
+.card:hover {
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
 
 .card-img {
   max-height: 200px;
   border-radius: 10px;
 }
 
+
 .card-title {
   margin: 10px;
-  color: black;
+  color: white;
+  font-family: 'Poppins', sans-serif; /* Thin, modern font */
+  font-weight: 300; /* Makes it look thin */
+  font-size: 22px; /* Adjust as needed */
+  text-transform: uppercase; /* Optional: makes it all caps */
+  letter-spacing: 1.2px; /* Adds a sleek effect */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Soft shadow for better contrast */
 }
 
 .card-text {
   margin: 10px;
-  color: black;
+  color: white;
+  font-family: 'Montserrat', sans-serif; /* Modern, professional font */
+  font-weight: 300; /* Thin font */
+  font-size: 16px;
+  line-height: 1.6; /* Adds better readability */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
+
 
 /*Header.css*/
 .header-title {
@@ -142,20 +155,54 @@ body {
 .button-header {
   margin-right: 20px;
   margin-left: 20px;
-  padding: 20px;
+  padding: 12px 24px; /* Better padding for aesthetics */
   cursor: pointer;
   text-align: center;
-  transition: box-shadow 0.2s ease;
-  font-size: 20px;
-  width: 130px;
+  transition: all 0.3s ease-in-out;
+  font-size: 18px;
+  font-weight: bold;
+  width: 150px;
   border-radius: 30px;
-  border-width: 1px;
+  border: 2px solid rgba(200, 200, 200, 0.5); /* Subtle grey border */
+  background: rgba(128, 128, 128, 0.15); /* Light grey transparency */
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  color: white; /* Ensure text is visible */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
+/* Hover Effect */
 .button-header:hover {
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.227);
-  transform: translateY(1px);
+  background: rgba(128, 128, 128, 0.3); /* Slightly darker on hover */
+  border-color: rgba(255, 255, 255, 0.6); /* Brighter border */
+  box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.2); /* Soft glow effect */
+  transform: scale(1.05); /* Slight enlarge effect */
 }
+
+/* Click (Active) Effect */
+.button-header:active {
+  background: rgba(128, 128, 128, 0.4); /* Darker grey when clicked */
+  box-shadow: 0px 2px 6px rgba(255, 255, 255, 0.1);
+  transform: scale(0.98); /* Pressed effect */
+}
+
+/* Optional: Add animation when appearing */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.button-header {
+  animation: fadeIn 0.5s ease-out;
+}
+
 .Log-out-button{
   float: right;
   margin-right: 10px;
@@ -265,9 +312,6 @@ body {
 .App-add-new-transaction-section {
   height: 200px;
   min-width: 300px;
-  
-
-
   border: 0.5px solid rgb(160, 159, 159);
   border-radius: 10px;
   box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
@@ -284,8 +328,6 @@ body {
   height: 400px;
   width: 300px;
   margin-top: -50px;
-  
-
   border: 0.5px solid rgb(160, 159, 159);
   border-radius: 10px;
   box-shadow: 5px 5px 5px rgba(160, 160, 160, 0.1);
@@ -305,8 +347,6 @@ body {
 .stock-search-section{
   display: flex;
   flex-direction: column;
-
-
 }
 
 .table-container {
@@ -556,4 +596,327 @@ display: flex;
   font-size: 0.9rem;
   color: #757575;
   text-align: right;
+}
+
+
+.about-me-card {
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Slightly visible border */
+  border-radius: 15px; /* Softer rounded edges */
+  padding: 20px;
+  width: 800px;
+  height: 320px;
+  text-align: center;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.07); /* Transparent but slightly visible */
+  backdrop-filter: blur(6px); /* Less blur than before */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  font-family: 'Arial', sans-serif;
+  color: white; /* White text for readability */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Optional: Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-me-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+
+
+.about-me-text{
+  width: 700px; /* Set a fixed width */
+  margin: 0 auto; /* Center the paragraph */
+  text-align: justify;
+  padding-top: 2px;
+
+  font-family: "Raleway", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+
+@media (max-width: 768px) {
+  body {
+    min-width: 1024px; /* ✅ Forces desktop width */
+    overflow-x: auto; /* ✅ Enables horizontal scrolling */
+    overflow-y: auto; /* ✅ Enables vertical scrolling (Fixes top cutoff) */
+  }
+
+  .App-expense-tracker-page {
+    width: 1024px !important; /* ✅ Prevents shrinking */
+    max-width: none !important;
+    height: auto !important; /* ✅ Ensures content is not cut off */
+    overflow-y: auto !important; /* ✅ Allows scrolling for extra content */
+  }
+}
+
+/* Parent container that wraps both sections */
+.about-me-container {
+  display: flex;
+  flex-direction: column; /* Keeps About Me and Skills stacked */
+  align-items: center; /* Centers both sections horizontally */
+  justify-content: center; /* Ensures content is centered properly */
+  min-height: 100vh; /* Ensures the full height is used */
+  gap: 30px; /* Adds spacing between About Me and Skill Stack */
+}
+
+/* Main container */
+.skill-stack-container {
+  width: 800px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.07); /* Transparent effect */
+  backdrop-filter: blur(6px); /* Subtle glass effect */
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  font-family: 'Arial', sans-serif;
+  color: white;
+  margin-top: 20px; /* Space between About Me and Skills */
+  animation: fadeIn 0.5s ease-out;
+}
+
+
+/* Section Title */
+.skill-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Skill Grid Layout */
+/* Updated Skill List */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr)); /* Two vertical columns */
+  gap: 15px 40px; /* Adds spacing between rows and columns */
+  justify-content: center;
+  align-items: start;
+  padding-left: 20px; /* Indent for bullet alignment */
+}
+
+/* Individual Skill Item */
+.skill-item {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+  position: relative;
+  padding-left: 20px; /* Space for bullet */
+}
+
+/* Bullet Points */
+.skill-item::before {
+  content: "•"; /* Bullet symbol */
+  position: absolute;
+  left: 0;
+  color: #ddc1ff; /* Custom bullet color */
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.Skill-div{
+  margin-top: 10px;
+  color:black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.Background {
+  background-image: url("./assets/background.jpg");
+  height: 1200px;
+  background-size: cover;
+  background-position: center;
+  position: relative; /* Required for overlays */
+  color: white;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* Dark Overlay for Depth */
+.Background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 10%, rgba(0, 0, 0, 0.2) 50%);
+  z-index: 0;
+
+}
+
+/* Subtle Texture Overlay */
+.Background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png"); /* Subtle texture */
+  opacity: 0.1;
+  z-index: 1;
+
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+}
+.Homepage-content-div {
+  animation: fadeIn 1s ease-out;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+.Contact-div{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+
+  color: white; /* Optional: Adjust text color */
+
+  
+}
+
+.resume-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+.pdf-viewer {
+  border-radius: 10px; 
+  border: none;
+}
+
+/* Download Button */
+.download-link {
+  text-decoration: none;
+  display: inline-block;
+ 
+}
+
+.download-button {
+  background-color: #007bff;  /* Blue color */
+  color: white;
+  font-size: 18px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.download-button:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.card-github-title{
+  margin-top: 30px;
+  color: white;
+  font-family: 'Poppins', sans-serif; /* Thin, modern font */
+  font-weight: 300; /* Makes it look thin */
+  font-size: 30px; /* Adjust as needed */
+  text-transform: uppercase; /* Optional: makes it all caps */
+  letter-spacing: 1.2px; /* Adds a sleek effect */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Soft shadow for better contrast */
+
+}
+
+/* Fullscreen Overlay */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #3a3a3a, #585858);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.6s ease-in-out;
+}
+
+/* Fade Out Effect */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top: 5px solid #fff;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+/* Loading Text */
+.loading-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  margin-top: 20px;
+  font-family: "Poppins", sans-serif;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+/* Keyframes for Spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

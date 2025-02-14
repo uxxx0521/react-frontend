@@ -1,14 +1,16 @@
+import ResumeFile from "../components/ResumeFile";
+
 
 function Resume() {
-    return (
-      <>
-        <div>Resume</div>
-      </>
-  
-  
-    );
-  
-  
-  }
-  
-  export default Resume;
+  return (
+    <>
+      <ResumeFile />
+    </>
+
+
+  );
+
+
+}
+
+export default Resume;

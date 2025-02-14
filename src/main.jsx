@@ -7,12 +7,14 @@ import Homepage from "./Pages/Homepage.jsx";
 import Blog from "./Pages/Blog.jsx";
 import Portfolio from "./Pages/Portfolio.jsx";
 import Resume from "./Pages/Resume.jsx";
+import Github from "./Pages/Github.jsx";
 import Expense_tracker from "./Pages/Expense_tracker.jsx";
 import Sign_in from "./Pages/SignIn.jsx";
 import Sign_up from "./Pages/SignUp.jsx";
 import ProtectedRoute from "./ProtectedRoutes/ProtectedRoute.jsx";
 import Me from "./ProtectedRoutes/Me.jsx";
 import "./index.css";
+
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/resume",
         element: <Resume />,
+      },
+      {
+        path: "/github",
+        element: <Github />,
       },
     ],
   },
