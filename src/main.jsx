@@ -13,6 +13,7 @@ import Sign_in from "./Pages/SignIn.jsx";
 import Sign_up from "./Pages/SignUp.jsx";
 import ProtectedRoute from "./ProtectedRoutes/ProtectedRoute.jsx";
 import Me from "./ProtectedRoutes/Me.jsx";
+import Chat from "./Pages/Chat.jsx";
 import "./index.css";
 
 
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Homepage />,
-    errorElement: <div>404 Not found. Wrong URL!!</div>,
+    errorElement: <div>404 Not found. Wrong URL!! ---from react-app</div>,
     children: [
       {
         path: "/portfolio",
@@ -41,7 +42,11 @@ const router = createBrowserRouter([
     element: <Expense_tracker />,
   },
   {
-    path: "/portfolio/blog_website",
+    path: "/portfolio/chat",
+    element: <Chat />,
+  },
+  {
+    path: "/portfolio/blog",
     element: <Blog />,
   },
   {

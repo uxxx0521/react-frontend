@@ -31,12 +31,35 @@ body {
   position: relative;
 
 }
-.go-back-button{
+.go-back-button {
   position: absolute;
-	top: 20px; left: 20px;
-  padding:10px;
-  width:40px;
+  top: 20px;
+  left: 20px;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background-color: #3b82f6; /* Soft blue */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  z-index: 10;
 }
+
+.go-back-button:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+
 .sign-in-page > div {
   background: #ffffff;
   padding: 40px 30px;
@@ -47,6 +70,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
 }
 
 .sign-in-page h1 {
@@ -247,11 +271,12 @@ justify-content: center;
   justify-content: center;
   padding: 10px;
   margin-bottom: 50px;
+  gap: 40px;
 }
 
 .button-header {
-  margin-right: 20px;
-  margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 0px;
   padding: 12px 24px; /* Better padding for aesthetics */
   cursor: pointer;
   text-align: center;
@@ -1300,3 +1325,74 @@ margin-right:5px;
   background: linear-gradient(135deg, #4C3DB2, #32267E);
   transform: scale(1.05);
 }
+
+
+/* CHAT APP*/
+
+.chat-app-container{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding-left: 150px; 
+}
+.app-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.main-content{
+
+  margin-left: 150px;
+}
+.profile-container{
+  position: absolute;
+  top: 91px;
+  left: 0px;
+  background-color: grey;
+  width:150px;
+  height: 89px;
+}
+
+
+.friend-container{
+  position: absolute;
+  top: 180px;
+  left:0px;
+  height: 611px; 
+  max-height: 800px;
+  width: 150px;
+  background-color: #27cc95;
+
+}
+
+.chat-container{
+  margin-left:150px;
+  width: 600px;
+  height: 700px;
+  background-color: pink;
+}
+.chat-content{
+  display: grid;
+  grid-template-rows: 650px 1fr;
+}
+.input-container{
+  display:flex;
+  height: 50px;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-box{
+ 
+  width: 400px;
+  height: 30px;
+}
+.send-button{
+  padding: 8px;
+  margin-left: 10px;
+}
+
