@@ -14,6 +14,8 @@ import Sign_up from "./Pages/SignUp.jsx";
 import ProtectedRoute from "./ProtectedRoutes/ProtectedRoute.jsx";
 import Me from "./ProtectedRoutes/Me.jsx";
 import Chat from "./Pages/Chat.jsx";
+import Chat_signIn from "./Pages/Chat_signIn.jsx";
+import Chat_signUp from "./Pages/Chat_signUp.jsx";
 import "./index.css";
 
 
@@ -42,10 +44,6 @@ const router = createBrowserRouter([
     element: <Expense_tracker />,
   },
   {
-    path: "/portfolio/chat",
-    element: <Chat />,
-  },
-  {
     path: "/portfolio/blog",
     element: <Blog />,
   },
@@ -64,6 +62,18 @@ const router = createBrowserRouter([
         <Me />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/portfolio/chat",
+    element: <Chat />,
+  },
+  {
+    path: "/portfolio/chat/sign_in",
+    element: <Chat_signIn />,
+  },
+  {
+    path: "/portfolio/chat/sign_up",
+    element: <Chat_signUp />,
   },
 
 ]);
