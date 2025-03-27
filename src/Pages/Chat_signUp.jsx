@@ -14,7 +14,7 @@ function Chat_signUp() {
     // Handle sign up.
     const signup = async () => {
         try {
-            const response = await fetch("http://localhost:8080/chatapi/register", {
+            const response = await fetch("http://localhost:8080/chatapi/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -30,7 +30,7 @@ function Chat_signUp() {
             // Check if signup was successful
             if (response.ok) {
                 setMessage("Signup successful!");
-                await login();  // Only call login after successful signup
+                //await login();  // Only call login after successful signup
             } else if (response.status === 409) {
                 setMessage("Please enter a different username.");
             } else {
@@ -56,7 +56,7 @@ function Chat_signUp() {
                 const accessToken = response.data.accessToken;
                 localStorage.setItem("accessToken", accessToken); // Save token in localStorage
                 // Redirect to the user's main page
-                navigate("/portfolio/expense_tracker/me");
+                navigate("/portfolio/chatapi/me");
 
             } else {
                 setMessage(response.data.error || "Login failed");

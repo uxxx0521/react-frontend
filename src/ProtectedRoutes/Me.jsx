@@ -60,59 +60,58 @@ function Me() {
   }
 
   function handleIncomeAddClick() {
-    if (incomeInputValue.trim() !== "") {
-      setCurrentBalance(
-        (prevCurrentlBalance) => prevCurrentlBalance + Number(incomeInputValue)
+    if (incomeInputValue.trim() !== "" && incomeInputValue > 0) {
+      setCurrentBalance((prevCurrentBalance) =>
+        parseFloat((prevCurrentBalance + Number(incomeInputValue)).toFixed(2))
       );
-      setTotalIncome(
-        (prevTotalIncome) => prevTotalIncome + Number(incomeInputValue)
+      setTotalIncome((prevTotalIncome) =>
+        parseFloat((prevTotalIncome + Number(incomeInputValue)).toFixed(2))
       );
       const newEntry = {
         type: "Income",
-        number: Number(incomeInputValue),
+        number: parseFloat(Number(incomeInputValue).toFixed(2)),
         category: incomeCategorySelect,
-        date: new Date().toISOString().slice(0, 10),
+        date: new Date().toLocaleDateString("en-CA"),
       };
       setEntries([...entries, newEntry]);
       setIncomeInputValue("");
+      setDateInput("");
     }
   }
+
   function handleExpenseAddClick() {
-    if (expenseInputValue.trim() !== "") {
-      setCurrentBalance(
-        (prevCurrentlBalance) => prevCurrentlBalance - Number(expenseInputValue)
+    if (expenseInputValue.trim() !== "" && expenseInputValue > 0) {
+      setCurrentBalance((prevCurrentBalance) =>
+        parseFloat((prevCurrentBalance - Number(expenseInputValue)).toFixed(2))
       );
-      setTotalExpenses(
-        (prevTotalExpenses) => prevTotalExpenses + Number(expenseInputValue)
+      setTotalExpenses((prevTotalExpenses) =>
+        parseFloat((prevTotalExpenses + Number(expenseInputValue)).toFixed(2))
       );
       const newEntry = {
         type: "Expense",
-        number: Number(expenseInputValue),
+        number: parseFloat(Number(expenseInputValue).toFixed(2)),
         category: expenseCategorySelect,
-        date: new Date().toISOString().slice(0, 10),
+        date: new Date().toLocaleDateString("en-CA"),
       };
       setEntries([...entries, newEntry]);
       setExpenseInputValue("");
+      setDateInput("");
     }
   }
   function deleteEntry(index) {
+    if (index < 0 || index >= entries.length) return;
     const entryToDelete = entries[index];
+    if (!entryToDelete) return;
+
     const updatedEntries = entries.filter((_, i) => i !== index);
     setEntries(updatedEntries);
+    const amount = parseFloat(entryToDelete.number.toFixed(2));
     if (entryToDelete.type === "Income") {
-      setCurrentBalance(
-        (prevCurrentlBalance) => prevCurrentlBalance - entryToDelete.number
-      );
-      setTotalIncome(
-        (prevTotalIncome) => prevTotalIncome - entryToDelete.number
-      );
+      setCurrentBalance(prev => parseFloat((prev - amount).toFixed(2)));
+      setTotalIncome(prev => parseFloat((prev - amount).toFixed(2)));
     } else {
-      setCurrentBalance(
-        (prevCurrentlBalance) => prevCurrentlBalance + entryToDelete.number
-      );
-      setTotalExpenses(
-        (prevTotalIncome) => prevTotalIncome - entryToDelete.number
-      );
+      setCurrentBalance(prev => parseFloat((prev + amount).toFixed(2)));
+      setTotalExpenses(prev => parseFloat((prev - amount).toFixed(2)));
     }
   }
 
@@ -250,153 +249,149 @@ function Me() {
 
   return (
     <>
-      <div className="App-expense-tracker-page">
-        <div className="Express-tracker-dashboard">
-          <Button_Expense_Tracker
-            text="Home"
-            link="/portfolio"
-            className="home-button"
-          />
-          <h1 className="Express-tracker-dashboard-title">Hello {nickName}!</h1>
-          <div className="right-button-container">
+      <div className="scroll-container">
+        <div className="App-expense-tracker-page">
+          <div className="Express-tracker-dashboard">
             <Button_Expense_Tracker
-              text="Log out"
-              link="/portfolio/expense_tracker"
-              className="Log-out-button"
-              onClick={handleLogout}
+              text="←"
+              link="/portfolio"
+              className="home-button"
             />
-          </div>
-
-
-        </div>
-
-        <div className="App-expense-tracker">
-          {/*BALANCE SUMMARY*/}
-          <div className="App-balance-summary-section">
-            <h1 className="app-section-title">Balance Summary</h1>
-            <div class="App-balance-summary-display-section">
-              <div className="Current-balance-display-box">
-                <p>Current Balance</p>
-                <p>${currentBalance}</p>
-              </div>
-              <div className="Total-income-display-box">
-                <p>Total Income</p>
-                <p>${totalIncome}</p>
-              </div>
-              <div className="Total-expenses-display-box">
-                <p>Total Expenses</p>
-                <p>${totalExpenses}</p>
-              </div>
-            </div>
-          </div>
-          {/*NEW Transaction*/}
-          <div className="App-add-new-transaction-section">
-            <h1 className="app-section-title">Add New Transaction</h1>
-            <p>Add income</p>
-            <input
-              placeholder="Income amount"
-              type="number"
-              id="incomeInput"
-              value={incomeInputValue}
-              onChange={handleIncomeInputChange}
-            ></input>
-            <select onChange={handleIncomeCategorySelectChange}>
-              <option value="Salary">Salary</option>
-              <option value="Investment">Investment</option>
-              <option value="Other">Other</option>
-            </select>
-            <button onClick={handleIncomeAddClick}>Add</button>
-            <p>Add Expense</p>
-            <input
-              placeholder="Expense amount"
-              type="number"
-              id="expenseinput"
-              value={expenseInputValue}
-              onChange={handleExpenseInputChange}
-            ></input>
-            <select onChange={handleExpenseCategorySelectChange}>
-              <option value="Mortgage">Mortgage</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Other">Other</option>
-            </select>
-            <button onClick={handleExpenseAddClick}>Add</button>
-          </div>
-          {/*Transaction History*/}
-          <div className="App-trasaction-history">
-            <h1 className="app-section-title">{isSearchActive ? "Searched Result" : "Transaction History"}</h1>
-            <div className="history-search-bar">
-              <input
-                type="date"
-                onChange={handleDateInputChange}
-                value={dateInputValue}
+            <h1 className="Express-tracker-dashboard-title">Hello {nickName}!</h1>
+            <div className="right-button-container">
+              <Button_Expense_Tracker
+                text="Log out"
+                link="/portfolio/expense_tracker"
+                className="Log-out-button"
+                onClick={handleLogout}
               />
-              <button onClick={handleSearchButtonClick}>Search</button>
-              <button>Filter</button>
-              <button onClick={handleClearSearch}>Clear</button>
             </div>
-            <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Balance</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(dateInputValue && filteredEntries.length > 0
-                    ? filteredEntries
-                    : entries
-                  ).map((entries, index) => (
-                    <tr key={index}>
-                      <td>{entries.type}</td>
-                      <td>{entries.number}</td>
-                      <td>{entries.category}</td>
-                      <td>{new Date(entries.date).toLocaleDateString("en-CA")}</td>
-                      <td>
-                        <button className="delete-button" onClick={() => deleteEntry(index)}>X</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-
-
-            {/*HISTORY LIST TEST
-                        <h2>Searched Result</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Balance</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEntries.map((filteredEntries, index) => (
-                                    <tr key={index}>
-                                        <td>{filteredEntries.type}</td>
-                                        <td>{filteredEntries.number}</td>
-                                        <td>{filteredEntries.category}</td>
-                                        <td>{filteredEntries.date}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        */}
-
           </div>
-
-          <Stock />
-        </div>
-      </div >
+          <div className="App-expense-tracker">
+            {/*BALANCE SUMMARY*/}
+            <div className="App-balance-summary-section">
+              <h1 className="app-section-title">Balance Summary</h1>
+              <div class="App-balance-summary-display-section">
+                <div className="Current-balance-display-box">
+                  <p className="summary">Current Balance</p>
+                  <p className="summary-balance">${currentBalance}</p>
+                </div>
+                <div className="Total-income-display-box">
+                  <p className="summary">Total Income</p>
+                  <p className="summary-income">${totalIncome}</p>
+                </div>
+                <div className="Total-expenses-display-box">
+                  <p className="summary">Total Expenses</p>
+                  <p className="summary-expense">${totalExpenses}</p>
+                </div>
+              </div>
+            </div>
+            {/*NEW Transaction*/}
+            <div className="App-add-new-transaction-section">
+              <h1 className="app-section-title">New Transaction</h1>
+              <p className="add-income-title">Add income</p>
+              <input
+                className="input"
+                placeholder="Amount"
+                type="number"
+                id="incomeInput"
+                value={incomeInputValue}
+                onChange={handleIncomeInputChange}
+              ></input>
+              <select className="select" onChange={handleIncomeCategorySelectChange}>
+                <option value="Salary">Salary</option>
+                <option value="Investment">Investment</option>
+                <option value="Other">Other</option>
+              </select>
+              <button className="add-button" onClick={handleIncomeAddClick}>Add</button>
+              <p className="add-income-title">Add Expense</p>
+              <input
+                className="input"
+                placeholder="Amount"
+                type="number"
+                id="expenseinput"
+                value={expenseInputValue}
+                onChange={handleExpenseInputChange}
+              ></input>
+              <select className="select" onChange={handleExpenseCategorySelectChange}>
+                <option value="Mortgage">Mortgage</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Other">Other</option>
+              </select>
+              <button className="add-button" onClick={handleExpenseAddClick}>Add</button>
+            </div>
+            {/*Transaction History*/}
+            <div className="App-trasaction-history">
+              <h1 className="app-section-title">{isSearchActive ? "Searched Result" : "Transaction History"}</h1>
+              <div className="history-search-bar">
+                <input
+                  type="date"
+                  onChange={handleDateInputChange}
+                  value={dateInputValue}
+                />
+                <button onClick={handleSearchButtonClick}>Search</button>
+                <button>Filter</button>
+                <button onClick={handleClearSearch}>Clear</button>
+              </div>
+              <div className="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Balance</th>
+                      <th>Category</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(dateInputValue && filteredEntries.length > 0
+                      ? filteredEntries
+                      : entries
+                    ).map((entries, index) => (
+                      <tr key={index}>
+                        <td>{entries.type}</td>
+                        <td>{entries.number}</td>
+                        <td>{entries.category}</td>
+                        <td>{new Date(entries.date).toLocaleDateString("en-CA")}</td>
+                        <td>
+                          <button className="delete-button" onClick={() => deleteEntry(index)}>X</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {/*HISTORY LIST TEST
+                          <h2>Searched Result</h2>
+                          <table>
+                              <thead>
+                                  <tr>
+                                      <th>Type</th>
+                                      <th>Balance</th>
+                                      <th>Category</th>
+                                      <th>Date</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  {filteredEntries.map((filteredEntries, index) => (
+                                      <tr key={index}>
+                                          <td>{filteredEntries.type}</td>
+                                          <td>{filteredEntries.number}</td>
+                                          <td>{filteredEntries.category}</td>
+                                          <td>{filteredEntries.date}</td>
+                                      </tr>
+                                  ))}
+                              </tbody>
+                          </table>
+                          */}
+            </div>
+            <Stock />
+          </div>
+        </div >
+      </div>
     </>
   );
 }

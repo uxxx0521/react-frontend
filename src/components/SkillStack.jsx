@@ -1,16 +1,18 @@
 import React from "react";
 
 const skills = [
-    "JavaScript",
     "React.js",
     "Node.js",
     "Express.js",
+    "Spring Boot",
+    "Java",
+    "JavaScript",
     "Python",
+    "C++",
     "SQL",
     "Git & GitHub",
     "Docker",
-    "AWS",
-    "SSL",
+    "AWS"
 ];
 
 const SkillStack = () => {

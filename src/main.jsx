@@ -16,6 +16,7 @@ import Me from "./ProtectedRoutes/Me.jsx";
 import Chat from "./Pages/Chat.jsx";
 import Chat_signIn from "./Pages/Chat_signIn.jsx";
 import Chat_signUp from "./Pages/Chat_signUp.jsx";
+import { AuthProvider } from "./context/AuthContext";
 import "./index.css";
 
 
@@ -65,7 +66,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/portfolio/chat",
-    element: <Chat />,
+    element:
+      <AuthProvider>
+        <Chat />
+      </AuthProvider>,
   },
   {
     path: "/portfolio/chat/sign_in",
@@ -79,7 +83,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+
+  <RouterProvider router={router} />
+
 );

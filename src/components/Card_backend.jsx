@@ -5,7 +5,7 @@ function Card_backend() {
     return (
         <><div className="card">
             <img className="card-img" src={express} ></img>
-            <h2 className="card-github-title">Back-end</h2>
+            <h2 className="card-github-title">Expense Tracker Back-end</h2>
 
         </div>
         </>

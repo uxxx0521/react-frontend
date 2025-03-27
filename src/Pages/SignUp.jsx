@@ -66,7 +66,8 @@ function Sign_up() {
   return (
     <>
       <div className="sign-in-page">
-        <div>
+        <div className="sign-up-content">
+          <button className="go-back-button" onClick={() => navigate("/portfolio/expense_tracker")}>←</button>
           <h1>Sign up</h1>
           <div className="nickname-input-group">
             <label>Nickname:</label>
@@ -105,11 +106,16 @@ function Sign_up() {
             ></input>
           </div>
           <Button_Expense_Tracker
-            text="Submit"
+            text="Create Account"
             className="sign-in-page-ok-button"
             onClick={signup}
           />
+
+
           {message && <p>{message}</p>} {/* Display login messages */}
+          <div className="signin-link">
+            Already have an account? <a href="/portfolio/expense_tracker/sign_in">Sign in</a>
+          </div>
         </div>
       </div>
     </>

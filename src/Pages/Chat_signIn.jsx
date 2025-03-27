@@ -14,11 +14,12 @@ function Chat_signIn() {
 
     const login = async (e) => {
         try {
-            const response = await fetch("http://localhost:8080/chatapi/auth", {
+            const response = await fetch("http://localhost:8080/chatapi/api/auth", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     username,
                     password,
@@ -27,15 +28,12 @@ function Chat_signIn() {
             const result = await response.json()
             if (response.ok) {
                 setMessage("Login successful!");
-
-                //const accessToken = result.accessToken;
-                //localStorage.setItem("accessToken", accessToken); // Save token in localStorage
                 // Redirect to the user's main page
                 navigate("/portfolio/chat");
                 // navigate("/portfolio/chat/me");
 
             } else {
-                setMessage(result.error || "Login failed");
+                setMessage(result.message || result.error || "Login failed");
             }
         } catch (err) {
             console.error("Error during login:", err);

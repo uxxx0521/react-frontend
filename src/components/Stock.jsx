@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Button_Header from '../Button/Button_header'
 import Dashboard from './Stock_dashboard';
 import Overview from "./Overview";
-import { mockCompanyDetails } from "../constants/mock";
 import StockContext from "../context/StockContext";
 function Stock() {
 

@@ -87,7 +87,8 @@ function Sign_in() {
   return (
     <>
       <div className="sign-in-page">
-        <div>
+        <div className="sign-up-content">
+          <button className="go-back-button" onClick={() => navigate("/portfolio/expense_tracker")}>←</button>
           <h1>Sign in</h1>
           <div className="id-input-group">
             <label>ID:</label>

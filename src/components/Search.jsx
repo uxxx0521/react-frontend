@@ -53,8 +53,8 @@ const Search = () => {
               }
             }}
           />
-          <button onClick={updateBestMatches}>Search</button>
-          <button onClick={clear}>Clear</button>
+          <button className="stock-search-button" onClick={updateBestMatches}>Search</button>
+          <button className="stock-clear-button" onClick={clear}>Clear</button>
 
           {input && bestMatches.length > 0 ? (
 
