@@ -1,24 +1,10 @@
 
-export const fetchPublicMessages = async (API_BASE_URL) => {
-
-    const response = await fetch(`${API_BASE_URL}/messages`);
-    const data = await response.json();
-    return data;
-};
-
 
 export const fetchFriends = async (API_BASE_URL) => {
     const response = await fetch(`${API_BASE_URL}/friends/load`, { credentials: "include" });
     const data = await response.json();
     return data;
 }
-
-export const fetchPrivateMessage = async (API_BASE_URL, friend_id) => {
-    const response = await fetch(`${API_BASE_URL}/conversations/private?friendId=${friend_id}`, { credentials: "include" });
-    const data = await response.json();
-    return data;
-}
-
 
 export const fetchIncomingRequests = async (API_BASE_URL) => {
     const response = await fetch(`${API_BASE_URL}/friends/requests`, { credentials: "include" });
@@ -31,7 +17,69 @@ export const sendFriendRequest = async (API_BASE_URL, username) => {
         method: "POST",
         credentials: "include",
     });
-    const data = await response.json();
-    return { ok: response.ok, status: response.status, data };
+    const text = await response.text();
+    return { ok: response.ok, status: response.status, data: text };
 }
-//fetch user information is handled by authProvider
+
+export const acceptFriendRequest = async (API_BASE_URL, friend_id) => {
+    const response = await fetch(`${API_BASE_URL}/friends/accept?friendId=${friend_id}`, {
+        method: "POST",
+        credentials: "include",
+    });
+    const text = await response.text();
+    return { ok: response.ok, status: response.status, data: text };
+}
+
+export const rejectFriendRequest = async (API_BASE_URL, friend_id) => {
+    const response = await fetch(`${API_BASE_URL}/friends/reject?friendId=${friend_id}`, {
+        method: "POST",
+        credentials: "include",
+    });
+    const text = await response.text();
+    return { ok: response.ok, status: response.status, data: text };
+}
+
+export const createOrFetchConversation = async (API_BASE_URL, friendId) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/conversations/private?friendId=${friendId}`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to get conversation");
+        }
+
+        const conversation = await response.json();
+        return conversation; // Contains { id, name, isGroup, isPublic, createdAt }
+    } catch (error) {
+        console.error("❌ Error fetching/creating conversation:", error);
+        return null;
+    }
+};
+
+export const fetchPrivateMessages = async (API_BASE_URL, conversationId) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/messages/private/${conversationId}`, {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to get messages");
+        }
+
+        const messages = await response.json();
+        return messages; // Array of message objects
+    } catch (error) {
+        console.error("❌ Error fetching private messages:", error);
+        return [];
+    }
+};
+
+export const fetchPublicMessages = async (API_BASE_URL) => {
+    const response = await fetch(`${API_BASE_URL}/messages/public`);
+    const data = await response.json();
+    return data;
+};
+//fetch current user information is handled by authProvider

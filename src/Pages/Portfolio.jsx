@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Card_portfolio from "../components/Card_portfolio";
 import Card_blog from "../components/Card_blog";
 import Card_chat from "../components/Card_chat";
+import Card_face from "../components/Card_face";
 
 function Portfolio() {
   return (
@@ -17,6 +18,10 @@ function Portfolio() {
           <Link to="/portfolio/chat">
             <Card_chat />
           </Link>
+          <a href="/face_detection">
+            <Card_face />
+          </a>
+
 
 
 

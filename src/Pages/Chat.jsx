@@ -1,12 +1,20 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useNavigate } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 import "./Chat.css"
 import { AuthContext } from '../context/AuthContext';
-import { fetchPublicMessages, fetchPrivateMessage, fetchFriends, sendFriendRequest, fetchIncomingRequests } from '../chatapp-api/chat-api';
+import {
+    fetchPublicMessages,
+    fetchPrivateMessages,
+    fetchFriends,
+    sendFriendRequest,
+    fetchIncomingRequests,
+    acceptFriendRequest,
+    rejectFriendRequest,
+    createOrFetchConversation
+} from '../chatapp-api/chat-api';
 
 function Chat() {
-    const mockFriends = ["a", "b", "c"]; // mock friends
     const [friends, setFriends] = useState([]);
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState("");
@@ -17,21 +25,14 @@ function Chat() {
     const isGuest = !user;
     const [showRequests, setShowRequests] = useState(false);
     const [incomingRequests, setIncomingRequests] = useState([]);
+    const [conversationTitle, setConversationTitle] = useState("Public Chat")
+    const [currentConversationId, setCurrentConversationId] = useState()
+    const subscriptionRef = useRef(null); // holds current active subscription
 
-    // 
+
     const API_BASE_URL = "http://localhost:8080/chatapi/api";
     //const WS_BASE_URL = "wss://chenliudev.com/ws";          // Use "wss://" for WebSocket over HTTPS
     const WS_BASE_URL = "ws://localhost:8080/ws";
-
-    const handleShowRequests = async () => {
-        if (!showRequests) {
-            // Only fetch when opening
-            const data = await fetchIncomingRequests(API_BASE_URL);
-            setIncomingRequests(data);
-        }
-
-        setShowRequests(!showRequests); // toggle popup
-    };
 
     const loadMessages = async () => {
         try {
@@ -48,43 +49,37 @@ function Chat() {
         }
     };
 
-    const loadFriends = async () => {
-
-        try {
-            const data = await fetchFriends(API_BASE_URL);  // getting an array of friend objects
-            setFriends(data);
-        } catch (error) {
-            console.error("Error fetching friends:", error);
-            setFriends([]);
-        }
-    }
 
     useEffect(() => {
         let client;
 
         const connect = () => {
             client = new Client({
-                brokerURL: WS_BASE_URL, //  WebSocket URL of your backend
-                debug: (str) => console.log("[STOMP DEBUG]:", str), //  Add debugging logs
-                reconnectDelay: 5000, //  Auto-reconnect every 5s
-                onConnect: () => {
-                    console.log("Connected to WebSocket ");
+                brokerURL: WS_BASE_URL,
+                debug: (str) => console.log("[STOMP DEBUG]:", str),
+                reconnectDelay: 5000,
 
-                    // Subscribe to public chat
-                    client.subscribe("/topic/public", (message) => {
+                onConnect: () => {
+                    console.log("✅ Connected to WebSocket");
+
+                    // Subscribe to public chat once connected
+                    const publicSub = client.subscribe("/topic/public", (message) => {
                         try {
                             const newMessage = JSON.parse(message.body);
                             setMessages((prev) => [...prev, newMessage]);
-                        } catch (error) {
-                            console.error(" Error parsing WebSocket message:", error);
+                        } catch (err) {
+                            console.error("❌ Failed to parse public msg", err);
                         }
                     });
+
+                    subscriptionRef.current = publicSub;
                 },
+
                 onStompError: (frame) => {
-                    console.error(" WebSocket STOMP Error:", frame);
+                    console.error("STOMP error:", frame);
                 },
                 onWebSocketError: (error) => {
-                    console.error(" WebSocket Connection Error:", error);
+                    console.error("WebSocket error:", error);
                 }
             });
 
@@ -95,19 +90,18 @@ function Chat() {
         connect();
         loadMessages();
 
-
         return () => {
             if (client) {
                 client.deactivate();
                 setStompClient(null);
-                console.log("WebSocket Disconnected!");
+                console.log("🔌 WebSocket Disconnected!");
             }
         };
     }, []);
 
     useEffect(() => {
         if (user) {
-            console.log("✅ user loaded, fetching friends...");
+            console.log(`✅ user ${user.username} loaded, fetching friends...`);
             loadFriends();
         }
     }, [user]);
@@ -115,19 +109,47 @@ function Chat() {
 
     const sendMessage = () => {
         if (stompClient && stompClient.connected && text.trim() !== "") {
-            const chatMessage = { sender: "User", content: text };
+            const chatMessage = {
+                message: text,
+                senderId: user?.id || null,
+                conversationId: currentConversationId
+            };
 
             console.log("Sending Message:", chatMessage);
 
             stompClient.publish({
-                destination: "/app/chat.send", // backend MessageMapping
+                destination: "/app/chat.send", // backend @MessageMapping
                 body: JSON.stringify(chatMessage),
             });
+
             setText(""); // Clear input field
         } else {
             console.error("STOMP client is not connected yet!");
         }
     };
+
+
+    const handleShowRequests = async () => {
+        if (!showRequests) {
+            // Only fetch when opening
+            const data = await fetchIncomingRequests(API_BASE_URL);
+            setIncomingRequests(data);
+        }
+
+        setShowRequests(!showRequests); // toggle popup
+    };
+
+
+    const loadFriends = async () => {
+
+        try {
+            const data = await fetchFriends(API_BASE_URL);  // getting an array of friend objects
+            setFriends(data);
+        } catch (error) {
+            console.error("Error fetching friends:", error);
+            setFriends([]);
+        }
+    }
 
     const handleFriendRequest = async () => {
         try {
@@ -147,7 +169,122 @@ function Chat() {
         setFriendInput("");
     };
 
+    const handleAcceptRequest = async (requesterId) => {
+        try {
+            const result = await acceptFriendRequest(API_BASE_URL, requesterId);
+            if (result.ok) {
+                alert("✅ Friend request accepted!")
+                await loadFriends();
+                await handleShowRequests();
+            } else {
+                alert(`❌ Failed to accept friend request: ${result.data}`);
+            }
 
+        } catch (error) {
+            console.error("Error during accepting friend request:", error);
+        }
+    }
+
+    const handleRejectRequest = async (requesterId) => {
+        try {
+            const result = await rejectFriendRequest(API_BASE_URL, requesterId);
+            if (result.ok) {
+                alert("✅ Friend request rejected!")
+                await loadFriends();
+                await handleShowRequests();
+            } else {
+                alert(`❌ Failed to reject friend request: ${result.data}`);
+            }
+
+        } catch (error) {
+            console.error("Error during rejecting friend request:", error);
+        }
+    }
+
+    const handleEnterPrivateChat = async (friendId) => {
+        const conversation = await createOrFetchConversation(API_BASE_URL, friendId);
+        if (conversation) {
+            navigate(`/portfolio/chat/private/${conversation.id}`);
+        }
+    };
+
+    const handleFriendClick = async (friendId, friendUsername) => {
+        try {
+            // 1. Fetch or create conversation
+            const convo = await createOrFetchConversation(API_BASE_URL, friendId);
+
+            if (!convo) {
+                alert("❌ Failed to get or create conversation");
+                return;
+            }
+
+            // 2. Fetch past messages
+            const msgs = await fetchPrivateMessages(API_BASE_URL, convo.id);
+
+            // 3. Unsubscribe from previous private topic if needed
+            if (subscriptionRef.current) {
+                subscriptionRef.current.unsubscribe();
+            }
+
+            // 4. Subscribe to the private conversation topic
+            const newSubscription = stompClient.subscribe(
+                `/topic/private.${convo.id}`,
+                (message) => {
+                    const newMsg = JSON.parse(message.body);
+                    setMessages((prev) => [...prev, newMsg]);
+                }
+            );
+            subscriptionRef.current = newSubscription;
+
+            // 5. Update UI state
+            setMessages(msgs);
+            setConversationTitle("Private Chat: " + friendUsername);
+            setCurrentConversationId(convo.id);
+
+        } catch (error) {
+            console.error("Error handling private chat: ", error);
+        }
+    };
+    const handlePublicClick = async (conversationId) => {
+        try {
+            // 2. Fetch past messages
+            const msgs = await fetchPublicMessages(API_BASE_URL);
+            // 3. Unsubscribe from previous private topic if needed
+            if (subscriptionRef.current) {
+                subscriptionRef.current.unsubscribe();
+            }
+            // 4. Subscribe to the private conversation topic
+            const newSubscription = stompClient.subscribe(
+                `/topic/public`,
+                (message) => {
+                    const newMsg = JSON.parse(message.body);
+                    setMessages((prev) => [...prev, newMsg]);
+                }
+            );
+            subscriptionRef.current = newSubscription;
+            // 5. Update UI state
+            setMessages(msgs);
+            setConversationTitle("Public Chat");
+            setCurrentConversationId(conversationId);
+        } catch (error) {
+            console.error("Error handling public chat: ", error);
+        }
+    };
+
+    const handleLogOut = async () => {
+        try {
+            await fetch(`${API_BASE_URL}/auth/logout`, {
+                method: "POST",
+                credentials: "include",
+            });
+
+            setUser(null); // clear context
+            setFriends([]); // clear friend list
+
+        } catch (err) {
+            console.error("Logout failed", err);
+        }
+    };
 
     return (
         <>
@@ -163,71 +300,103 @@ function Chat() {
                             <p>Pic</p>
                         </div>
                         <div className="profile-name">User</div>
-                        <div className='profiole-button'>
-                            <button className='send-button' onClick={() => navigate("/portfolio/chat/sign_in")} >Sign in</button>
-                            <button className='send-button' onClick={() => navigate("/portfolio/chat/sign_up")}>Sign up</button>
-                        </div>
+                        {isGuest && (
+                            <div className='profiole-button'>
+                                <button className='send-button' onClick={() => navigate("/portfolio/chat/sign_in")} >Sign in</button>
+                                <button className='send-button' onClick={() => navigate("/portfolio/chat/sign_up")}>Sign up</button>
+                            </div>
+                        )}
+                        {!isGuest && (
+                            <div className='profiole-button'>
+                                <button className='send-button' onClick={() => handleLogOut()} >Log out</button>
+                            </div>
+                        )}
+
                     </div>
 
                     {/* Main Content (Friends List + Chat) */}
                     <div className="main-content">
 
                         {/* Friends List (Left Side) */}
+
                         <div className="friend-container">
                             <h2 className='friend-container-title'>Friends</h2>
+
                             <ul>
+                                <li onClick={() => handlePublicClick(1)}>
+                                    Public chat room
+                                </li>
                                 {friends.map((friend, index) => (
-                                    <li key={index}>{friend.username}</li>
+                                    <li
+                                        key={index}
+                                        onClick={() => handleFriendClick(friend.id, friend.username)}
+                                    >{friend.username}
+                                    </li>
                                 ))}
                             </ul>
-                            <input
-                                className="friend-search-input"
-                                placeholder="Enter username"
-                                value={friendInput}
-                                onChange={(e) => setFriendInput(e.target.value)}>
-                            </input>
-                            <button className="friend-request-button" onClick={handleFriendRequest}>Send Request</button>
-                            <button onClick={handleShowRequests}>Request received</button>
-                            {showRequests && (
-                                <div className="popup-modal">
-                                    <h3>Pending Friend Requests</h3>
-                                    {incomingRequests.length === 0 ? (
-                                        <p>No requests</p>
-                                    ) : (
-                                        <ul>
-                                            {incomingRequests.map((req, i) => (
-                                                <li key={i} className="request-item">
-                                                    <span>{req.username}</span>
-                                                    <div className="request-actions">
-                                                        <button
-                                                            onClick={() => handleAcceptRequest(req.id)}
-                                                            className="accept-btn"
-                                                        >
-                                                            ✓
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleRejectRequest(req.id)}
-                                                            className="reject-btn"
-                                                        >
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                    <button onClick={() => setShowRequests(false)}>Close</button>
-                                </div>
+                            {isGuest && (
+                                <p>Login to add friends and chat 1:1!</p>
                             )}
+
+                            {!isGuest && (
+                                <>
+
+                                    <div className="friend-request-container">
+                                        <input
+                                            className="friend-search-input"
+                                            placeholder="Enter username"
+                                            value={friendInput}
+                                            onChange={(e) => setFriendInput(e.target.value)}
+                                        />
+                                        <button className="friend-request-button" onClick={handleFriendRequest}>
+                                            Send Request
+                                        </button>
+                                        <button onClick={handleShowRequests}>Request received</button>
+                                        {showRequests && (
+                                            <div className="popup-modal">
+                                                <h3>Pending Friend Requests</h3>
+                                                {incomingRequests.length === 0 ? (
+                                                    <p>No requests</p>
+                                                ) : (
+                                                    <ul>
+                                                        {incomingRequests.map((req, i) => (
+                                                            <li key={i} className="request-item">
+                                                                <span>{req.username}</span>
+                                                                <div className="request-actions">
+                                                                    <button
+                                                                        onClick={() => handleAcceptRequest(req.id)}
+                                                                        className="accept-btn"
+                                                                    >
+                                                                        ✓
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleRejectRequest(req.id)}
+                                                                        className="reject-btn"
+                                                                    >
+                                                                        X
+                                                                    </button>
+                                                                </div>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                                <button onClick={() => setShowRequests(false)}>Close</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+
                         </div>
+
 
                         {/* Chat Section (Right Side) */}
                         <div className="chat-container">
                             <div className="chat-display">
-                                <h2 className='main-content-title'>Chat</h2>
+                                <h2 className='main-content-title'>{conversationTitle}</h2>
                                 {messages.map((msg, index) => (
                                     <div key={index}>
-                                        <strong>{msg.sender}:</strong> {msg.content}
+                                        <strong>{msg.sender?.username || "Guest"}:</strong> {msg.message}
                                     </div>
                                 ))}
                             </div>

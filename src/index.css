@@ -176,10 +176,12 @@ justify-content: center;
 
 
 .Card-div {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
   justify-content: center;
   margin-top: 50px;
   gap: 20px;  /* Space between cards */
+
 }
 
 .card {
@@ -225,6 +227,7 @@ justify-content: center;
 .card-img {
   max-height: 200px;
   border-radius: 10px;
+  min-height:200px;
 }
 
 
@@ -261,7 +264,7 @@ justify-content: center;
   padding-top: 25px;
   padding-left: 17px;
   color: rgb(239, 239, 239);
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 /*button*/
@@ -269,8 +272,8 @@ justify-content: center;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 10px;
-  margin-bottom: 50px;
+ 
+
   gap: 40px;
 }
 
@@ -476,12 +479,40 @@ th {
   position: sticky; /* Make headers stick to the top while scrolling */
   top: 0; /* Ensure headers stay at the top */
 }
-.app-section-title{
-  margin-top: -8px;
-  margin-bottom: 10px; 
+
+.app-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Poppins', sans-serif;
+  padding: 0px 25px;
+  width: 250px;  /* Fixed width */
+  height: 50px;  /* Fixed height */
+  background: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), 
+              inset -3px -3px 6px rgba(255, 255, 255, 0.6);
+  
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; 
+  white-space: nowrap; /* Prevents the title from breaking into two lines */
+  overflow: hidden;
 }
+.add-income-title{
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
 .history-search-bar{
-margin-bottom: 10px;
+margin-bottom: 5px;
+margin-top: 5px;
+margin-left: 8px;
 display: flex;
 gap: 3px;
 
@@ -522,16 +553,39 @@ gap: 3px;
 
 }
 .stock-title{
-font-size: 33px;
-margin: 0;
-margin-top: -8px;
-margin-bottom: -10px;
-display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Poppins', sans-serif;
+  padding: 18px 20px;
+
+  /* Fixed width and height for consistency */
+  width: 90px;  /* Adjust width as needed */
+  height: 50px;  /* Fixed height */
+  
+  background: #f0f0f0; /* Light background for depth effect */
+  border-radius: 8px; /* Smooth rounded corners for modern feel */
+
+  /* Digging into the ground effect */
+  box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2), 
+              inset -3px -3px 6px rgba(255, 255, 255, 0.6);
+
+  /* Centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Centers the box horizontally */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden;
 
 }
 .stock-company-name{
   font-size: 20px;
   display: inline-block;
+  margin-top: 5px;
 }
 .stock-symbol{
   display: inline-block; /* Keep symbol inline */
@@ -608,9 +662,9 @@ display: flex;
   border-radius: 10px;
   padding-right: 5px;
   padding-left: 5px;
-  width: 300px;
+  width: 200px;
   background: #f4f4f4;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0);
   font-family: 'Arial', sans-serif;
   color: #333333;
   margin: 10px; /* Center the component on the page */
@@ -715,6 +769,7 @@ display: flex;
   font-family: 'Arial', sans-serif;
   color: white; /* White text for readability */
   transition: all 0.3s ease-in-out;
+  margin-top: 50px;
 }
 
 /* Optional: Fade-in Animation */
@@ -919,6 +974,7 @@ display: flex;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 50px;
 
 }
 
@@ -1327,72 +1383,28 @@ margin-right:5px;
 }
 
 
-/* CHAT APP*/
 
-.chat-app-container{
 
+.request-item {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  padding-left: 150px; 
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
 }
-.app-container{
+
+.request-actions {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-.main-content{
-
-  margin-left: 150px;
-}
-.profile-container{
-  position: absolute;
-  top: 91px;
-  left: 0px;
-  background-color: grey;
-  width:150px;
-  height: 89px;
+  gap: 8px;
 }
 
-
-.friend-container{
-  position: absolute;
-  top: 180px;
-  left:0px;
-  height: 611px; 
-  max-height: 800px;
-  width: 150px;
-  background-color: #27cc95;
-
+.accept-btn,
+.reject-btn {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 
-.chat-container{
-  margin-left:150px;
-  width: 600px;
-  height: 700px;
-  background-color: pink;
+.friend-request-container{
+  margin-top: auto;
 }
-.chat-content{
-  display: grid;
-  grid-template-rows: 650px 1fr;
-}
-.input-container{
-  display:flex;
-  height: 50px;
-  background-color: black;
-  justify-content: center;
-  align-items: center;
-}
-
-.input-box{
- 
-  width: 400px;
-  height: 30px;
-}
-.send-button{
-  padding: 8px;
-  margin-left: 10px;
-}
-
