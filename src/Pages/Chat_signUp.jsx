@@ -14,7 +14,8 @@ function Chat_signUp() {
     // Handle sign up.
     const signup = async () => {
         try {
-            const response = await fetch("http://localhost:8080/chatapi/api/register", {
+            //const response = await fetch("http://localhost:8080/chatapi/api/register", {
+            const response = await fetch("https://chenliudev.com/chatapi/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

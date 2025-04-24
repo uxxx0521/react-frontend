@@ -14,7 +14,8 @@ function Chat_signIn() {
 
     const login = async (e) => {
         try {
-            const response = await fetch("http://localhost:8080/chatapi/api/auth", {
+            //const response = await fetch("http://localhost:8080/chatapi/api/auth", {
+            const response = await fetch("https://chenliudev.com/chatapi/api/auth", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

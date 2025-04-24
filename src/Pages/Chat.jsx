@@ -26,13 +26,14 @@ function Chat() {
     const [showRequests, setShowRequests] = useState(false);
     const [incomingRequests, setIncomingRequests] = useState([]);
     const [conversationTitle, setConversationTitle] = useState("Public Chat")
-    const [currentConversationId, setCurrentConversationId] = useState()
+    const [currentConversationId, setCurrentConversationId] = useState(1)
     const subscriptionRef = useRef(null); // holds current active subscription
 
 
-    const API_BASE_URL = "http://localhost:8080/chatapi/api";
-    //const WS_BASE_URL = "wss://chenliudev.com/ws";          // Use "wss://" for WebSocket over HTTPS
-    const WS_BASE_URL = "ws://localhost:8080/ws";
+    //const API_BASE_URL = "http://localhost:8080/chatapi/api";         
+    //const WS_BASE_URL = "ws://localhost:8080/ws";
+    const API_BASE_URL = "https://chenliudev.com/chatapi/api";
+    const WS_BASE_URL = "wss://chenliudev.com/ws";
 
     const loadMessages = async () => {
         try {
@@ -105,7 +106,6 @@ function Chat() {
             loadFriends();
         }
     }, [user]);
-
 
     const sendMessage = () => {
         if (stompClient && stompClient.connected && text.trim() !== "") {
@@ -280,6 +280,7 @@ function Chat() {
 
             setUser(null); // clear context
             setFriends([]); // clear friend list
+            setCurrentConversationId(1);
 
         } catch (err) {
             console.error("Logout failed", err);
@@ -299,7 +300,10 @@ function Chat() {
                         <div className="profile-pic">
                             <p>Pic</p>
                         </div>
-                        <div className="profile-name">User</div>
+                        <div className="profile-name">
+                            {user && (user.username)}
+                            {!user && ("Guest")}
+                        </div>
                         {isGuest && (
                             <div className='profiole-button'>
                                 <button className='send-button' onClick={() => navigate("/portfolio/chat/sign_in")} >Sign in</button>
@@ -351,12 +355,12 @@ function Chat() {
                                         <button className="friend-request-button" onClick={handleFriendRequest}>
                                             Send Request
                                         </button>
-                                        <button onClick={handleShowRequests}>Request received</button>
+                                        <button className="request-received-button" onClick={handleShowRequests}>Request received</button>
                                         {showRequests && (
                                             <div className="popup-modal">
-                                                <h3>Pending Friend Requests</h3>
+                                                <h2>Pending Requests:</h2>
                                                 {incomingRequests.length === 0 ? (
-                                                    <p>No requests</p>
+                                                    <p>No requests found</p>
                                                 ) : (
                                                     <ul>
                                                         {incomingRequests.map((req, i) => (
@@ -380,7 +384,7 @@ function Chat() {
                                                         ))}
                                                     </ul>
                                                 )}
-                                                <button onClick={() => setShowRequests(false)}>Close</button>
+                                                <button className="friend-request-close-button" onClick={() => setShowRequests(false)}>Close</button>
                                             </div>
                                         )}
                                     </div>
@@ -394,11 +398,17 @@ function Chat() {
                         <div className="chat-container">
                             <div className="chat-display">
                                 <h2 className='main-content-title'>{conversationTitle}</h2>
-                                {messages.map((msg, index) => (
-                                    <div key={index}>
-                                        <strong>{msg.sender?.username || "Guest"}:</strong> {msg.message}
-                                    </div>
-                                ))}
+                                {messages.map((msg, index) => {
+                                    let isMe = false;
+                                    if (user) {
+                                        isMe = msg.sender?.id === user.id
+                                    }
+                                    return (
+                                        <div key={index} className={`message-bubble ${isMe ? "my-message" : "other-message"}`}>
+                                            <strong>{msg.sender?.username || "Guest"}:</strong> {msg.message}
+                                        </div>
+                                    );
+                                })}
                             </div>
                             <div className="input-container">
                                 <input

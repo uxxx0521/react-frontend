@@ -7,7 +7,8 @@ export const AuthProvider = ({ children }) => {
 
     const refreshUser = async () => {
         try {
-            const res = await fetch("http://localhost:8080/chatapi/api/auth/me", {
+            //const res = await fetch("http://localhost:8080/chatapi/api/auth/me", {
+            const res = await fetch("https://chenliudev.com/chatapi/api/auth/me", {
                 credentials: "include",
             });
             if (!res.ok) throw new Error();

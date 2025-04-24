@@ -228,6 +228,7 @@ justify-content: center;
   max-height: 200px;
   border-radius: 10px;
   min-height:200px;
+  max-width: 350px;
 }
 
 
@@ -1385,26 +1386,3 @@ margin-right:5px;
 
 
 
-.request-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.request-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.accept-btn,
-.reject-btn {
-  padding: 4px 8px;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.friend-request-container{
-  margin-top: auto;
-}

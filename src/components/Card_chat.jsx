@@ -7,7 +7,7 @@ function Card_chat() {
         <><div className="card">
             <img className="card-img" src={chatapp} ></img>
             <h2 className="card-title">Chat App</h2>
-            <p className="card-text">In production!</p>
+            <p className="card-text">Lets Chat!!!</p>
         </div>
         </>
 
