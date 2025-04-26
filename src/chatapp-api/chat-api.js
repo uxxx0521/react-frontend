@@ -82,4 +82,44 @@ export const fetchPublicMessages = async (API_BASE_URL) => {
     const data = await response.json();
     return data;
 };
+
+export const uploadProfilePic = async (file, API_BASE_URL) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(`${API_BASE_URL}/profile/upload`,
+        {
+            method: "POST",
+            credentials: "include",
+            body: formData,
+        });
+
+    const imageUrl = await response.text();
+    return imageUrl;
+};
+
+export const updateProfilePic = async (file, API_BASE_URL) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(`${API_BASE_URL}/profile/update`, {
+        method: "PUT",
+        credentials: "include",
+        body: formData,
+    });
+
+    const imageUrl = await response.text();
+    return imageUrl;
+};
+
+export const deleteProfilePic = async (API_BASE_URL) => {
+    const response = await fetch(`${API_BASE_URL}/profile/delete`, {
+        method: "DELETE",
+        credentials: "include",
+    });
+
+    const result = await response.text();
+    return result;
+};
+
 //fetch current user information is handled by authProvider

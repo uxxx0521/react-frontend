@@ -11,7 +11,10 @@ import {
     fetchIncomingRequests,
     acceptFriendRequest,
     rejectFriendRequest,
-    createOrFetchConversation
+    createOrFetchConversation,
+    uploadProfilePic,
+    updateProfilePic,
+    deleteProfilePic
 } from '../chatapp-api/chat-api';
 
 function Chat() {
@@ -286,6 +289,22 @@ function Chat() {
             console.error("Logout failed", err);
         }
     };
+    const handleUploadPic = async (file) => {
+        const newImageUrl = await uploadProfilePic(file, API_BASE_URL);
+        setUser(prev => ({ ...prev, profileImageUrl: newImageUrl }));
+    };
+
+    const handleUpdatePic = async (file) => {
+        const newImageUrl = await updateProfilePic(file, API_BASE_URL);
+        setUser(prev => ({ ...prev, profileImageUrl: newImageUrl }));
+    };
+
+    const handleDeletePic = async () => {
+        await deleteProfilePic(API_BASE_URL);
+        setUser(prev => ({ ...prev, profileImageUrl: null }));
+    };
+
+
 
     return (
         <>
