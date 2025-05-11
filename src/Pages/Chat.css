@@ -49,6 +49,7 @@ body {
 
 /* Profile Section */
 .profile-container {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -56,6 +57,30 @@ body {
     border-radius: 8px;
     margin-bottom: 15px;
 }
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* right under the profile-pic */
+    left: 0;
+    background: #404040;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    z-index: 999;
+    width: 100px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    
+  }
+  
+  .dropdown-menu > div {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .dropdown-menu > div:hover {
+    background-color: #19c37d;
+  }
 
 .profile-pic {
     width: 50px;
@@ -65,10 +90,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: bold;
     margin-right: 10px;
     margin-left:10px;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 /* Main Content (Friends List on Left & Chat on Right) */

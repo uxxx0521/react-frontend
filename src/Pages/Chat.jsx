@@ -27,11 +27,13 @@ function Chat() {
     const [friendInput, setFriendInput] = useState("");
     const isGuest = !user;
     const [showRequests, setShowRequests] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
     const [incomingRequests, setIncomingRequests] = useState([]);
     const [conversationTitle, setConversationTitle] = useState("Public Chat")
     const [currentConversationId, setCurrentConversationId] = useState(1)
-    const subscriptionRef = useRef(null); // holds current active subscription
 
+    const subscriptionRef = useRef(null); // holds current active subscription
+    const fileInputRef = useRef(null);
 
     //const API_BASE_URL = "http://localhost:8080/chatapi/api";         
     //const WS_BASE_URL = "ws://localhost:8080/ws";
@@ -290,20 +292,76 @@ function Chat() {
         }
     };
     const handleUploadPic = async (file) => {
-        const newImageUrl = await uploadProfilePic(file, API_BASE_URL);
-        setUser(prev => ({ ...prev, profileImageUrl: newImageUrl }));
+        if (isGuest) {
+            alert("Please login first!😊");
+            return;
+        }
+        if (!isGuest && user?.profileImageUrl) {
+            await handleUpdatePic(file);
+            return;
+        }
+        try {
+            const newImageUrl = await uploadProfilePic(file, API_BASE_URL);
+            if (newImageUrl) {
+                setUser(prev => ({
+                    ...prev,
+                    profileImageUrl: newImageUrl
+                }));
+                console.log("Profile pic updated:", newImageUrl);
+            } else {
+                throw new Error("Upload returned empty URL")
+            }
+
+        } catch (error) {
+            console.error("Upload failed:", error);
+        }
     };
 
     const handleUpdatePic = async (file) => {
-        const newImageUrl = await updateProfilePic(file, API_BASE_URL);
-        setUser(prev => ({ ...prev, profileImageUrl: newImageUrl }));
+        try {
+            const newImageUrl = await updateProfilePic(file, API_BASE_URL);
+            if (newImageUrl) {
+                setUser(prev => ({
+                    ...prev,
+                    profileImageUrl: newImageUrl
+                }));
+                console.log("Profile pic updated:", newImageUrl);
+            } else {
+                throw new Error("Update returned empty URL")
+            }
+        } catch (error) {
+            console.error("Update failed:", error);
+        }
     };
 
     const handleDeletePic = async () => {
-        await deleteProfilePic(API_BASE_URL);
-        setUser(prev => ({ ...prev, profileImageUrl: null }));
+        if (isGuest) {
+            alert("Please login first!😉")
+            return;
+        }
+        if (!user?.profileImageUrl) {
+            alert("No profile image to remove.😉")
+        }
+        try {
+            const result = await deleteProfilePic(API_BASE_URL);
+            console.log("Server responded:", result);
+            setUser(prev => ({ ...prev, profileImageUrl: null }));
+            console.log("Profile pic deleted.");
+        } catch (error) {
+            console.error("Error deleting pic:", error);
+        }
+    }
+
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
     };
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            handleUploadPic(file);
+        }
+    };
 
 
     return (
@@ -316,9 +374,26 @@ function Chat() {
 
                     {/* Profile Section */}
                     <div className="profile-container">
-                        <div className="profile-pic">
-                            <p>Pic</p>
+                        <div className="profile-pic" onClick={() => setShowDropdown(prev => (prev = !prev))} style={{ cursor: 'pointer' }} >
+                            <img
+                                src={user?.profileImageUrl || "/default-avatar.png"}
+                                alt="Profile"
+                                className="profile-img"
+                            />
                         </div>
+                        {showDropdown && (
+                            <div className="dropdown-menu">
+                                <div onClick={triggerFileInput}>Upload Pic</div>
+                                <div onClick={handleDeletePic}>Delete Pic</div>
+                            </div>
+                        )}
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
                         <div className="profile-name">
                             {user && (user.username)}
                             {!user && ("Guest")}

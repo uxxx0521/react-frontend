@@ -118,6 +118,10 @@ export const deleteProfilePic = async (API_BASE_URL) => {
         credentials: "include",
     });
 
+    if (!response.ok) {
+        throw new Error(`Delete failed with status ${response.status}`);
+    }
+
     const result = await response.text();
     return result;
 };
